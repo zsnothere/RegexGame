@@ -25,14 +25,23 @@ def generateName(rules):
     for i in range(len(o)):
         if o[i] == 'C': o[i] = random.choice(CONSONANTS)
         elif o[i] == 'V': o[i] = random.choice(CONSONANTS)
-    return ''.join(o)
+    return ''.join(o).title()
+
+def perturbIndividual(rule, i):
+    rule = list(rule)
+    rule[random.choice(range(len(rule)))] = random.choice(['CV', 'abcdefghijklmnopqrstuvwxyz'][i])
+    return ''.join(rule)
 
 def perturb(rules, level):
-    return rules # implement later
+    bad = rules.copy()
+    for _ in range(random.randint(1, 3)):
+        r = random.randint(0, len(bad)-1)
+        bad[r] = perturbIndividual(bad[r], r)
+    return bad
 
 def generateQueue(rules, level):
     o = []
-    for i in range(random.randint(max(int(level*0.75), 1), max(int(level*1.25), level+1))):
+    for _ in range(random.randint(max(int(level*0.75), 1), max(int(level*1.25), level+1))):
         if random.randint(0, max(level//2, 1)): o.append(generateName(rules))
         else: o.append(generateName(perturb(rules, level)))
     return o
