@@ -1,4 +1,4 @@
-import re
+import re, random
 
 def check(regex, name):
     match = re.search(regex, name)
@@ -7,9 +7,10 @@ def check(regex, name):
 
 def generateName(rules):
     o = ''
-    for i in rules[0]:
-        if i == 'C':
-            o += 'bcdfghjklmnpqrstvwxyz'[random.randint(0,20)]
-        else:
-            o += 'aeiouy'[random.randint(0,5)]
+    for s in range(random.randint(1,4)):
+        for i in rules[0]:
+            if i == 'C': o += 'bcdfghjklmnpqrstvwxyz'[random.randint(0,20)]
+            else: o += 'aeiouy'[random.randint(0,5)]
     return o
+
+print(generateName(['CVC']))
